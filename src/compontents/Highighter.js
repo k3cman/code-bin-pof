@@ -25,16 +25,57 @@ export const useChatData = (roomId: string) => {
 }`
 
 const Highighter = () => {
-    const [comments, setComments] = useState([]);
+
+    
+
+    const [comments, setComments] = useState([
+        {
+            lineNo: 3,
+            comment: 'Example comment'
+        }
+    ]);
+
+    const [codeFragments, setCodeFragments] = useState([])
+  
 
     useEffect(() => {
-        
+        // Map items
+        const codeChallengeArr = codeChallenge.split('\n');
+        const lineNumbers = comments.map(one => one.lineNo);
+
+        const result = [];
+        let lastLine = 0;
+        lineNumbers.forEach((line, index) => {
+            result.push({
+                code:codeChallengeArr.slice(lastLine, line).join('\n'),
+                comment: comments[index].comment || undefined,
+                commentIndex: index
+            })
+            lastLine = line;
+        })
+        result.push({
+            code: codeChallengeArr.slice(lastLine, codeChallengeArr.length + 1).join('\n'),
+            comment: undefined
+        });
+
+        setCodeFragments(result);
     }, [comments])
 
 
+    const updateComment = (value, codeFragmentIndex) => {
+        if(codeFragmentIndex){
+            const commentState = comments;
+            commentState[codeFragmentIndex].comment = value;
+
+            setComments([...commentState])
+        }
+    }
+
   return (
     <>
-        <SyntaxHighlighter language='typescript' style={atomOneDark}
+    {codeFragments.map((codeFragment, index) => {
+       return ( <div key={index}>
+            <SyntaxHighlighter language='typescript' style={atomOneDark}
             showInlineLineNumbers={true}
             wrapLines={true}
             showLineNumbers={true}
@@ -43,14 +84,20 @@ const Highighter = () => {
                 onClick(){
                     setComments([...comments, {
                         lineNo: lineNumber,
-                        comment: null
+                        comment: 'INSERT'
                     }])
                 }
             })}
         >
-            {codeChallenge}
+            {codeFragment.code}
         </SyntaxHighlighter>
-        <Comment comment={'Example comment'}/>
+        <div className="comment">
+        <Comment comment={codeFragment.comment} changed={(e) => updateComment(e, codeFragment.commentIndex)}/>
+        </div>
+        </div>) 
+    })}
+        
+        
     </>
   )
 }
