@@ -28,12 +28,7 @@ const Highighter = () => {
 
     
 
-    const [comments, setComments] = useState([
-        {
-            lineNo: 3,
-            comment: 'Example comment'
-        }
-    ]);
+    const [comments, setComments] = useState([{lineNo:3, comment: 'example'}, {lineNo:5, comment: 'example2'}]);
 
     const [codeFragments, setCodeFragments] = useState([])
   
@@ -71,6 +66,14 @@ const Highighter = () => {
         }
     }
 
+    const getLineNumber = (fragmentIndex, lineNumber) => {
+        const previousFragments = codeFragments.slice(0, fragmentIndex);
+        const code = previousFragments.map(one => one.code);
+        let lineNo = 0;
+        code.forEach((item) => lineNo += item.split('\n').length)
+        return lineNo + lineNumber;
+    }
+
   return (
     <>
     {codeFragments.map((codeFragment, index) => {
@@ -82,8 +85,9 @@ const Highighter = () => {
             lineProps={(lineNumber) => ({
                 style: {cursor: 'pointer'},
                 onClick(){
+                    console.log(index)
                     setComments([...comments, {
-                        lineNo: lineNumber,
+                        lineNo: index === 0 ? lineNumber : getLineNumber(index, lineNumber),
                         comment: 'INSERT'
                     }])
                 }
@@ -92,8 +96,9 @@ const Highighter = () => {
             {codeFragment.code}
         </SyntaxHighlighter>
         <div className="comment">
-        <Comment comment={codeFragment.comment} changed={(e) => updateComment(e, codeFragment.commentIndex)}/>
-        </div>
+            <Comment comment={codeFragment.comment} changed={(e) => updateComment(e, codeFragment.commentIndex)}/>
+            </div>
+        
         </div>) 
     })}
         

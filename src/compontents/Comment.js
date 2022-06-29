@@ -9,7 +9,9 @@ function Comment({comment, changed}) {
      {comment === 'INSERT' ? (<textarea value={areaComment} onChange={(e) => {
       setAreaComment(e.target.value)
      }} /> ) : (<span>{comment}</span>)}
-     <button onClick={() => changed(areaComment)}>Submit</button>
+     {comment === 'INSERT' ? (
+      <button onClick={() => changed(areaComment)}>Submit</button>
+     ) : null}
     </>
   )
 }
