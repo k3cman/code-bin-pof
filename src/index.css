@@ -5,3 +5,8 @@
 .react-syntax-highlighter-line-number{
   display: none !important;
 }
+
+.bg{
+  background-color: rgb(224, 242, 254);
+  background-image: radial-gradient(at 75% 59%, rgb(240, 249, 255) 0, transparent 28%), radial-gradient(at 34% 62%, rgb(226, 232, 240) 0, transparent 89%), radial-gradient(at 2% 66%, rgb(96, 165, 250) 0, transparent 20%), radial-gradient(at 25% 67%, rgb(38, 38, 38) 0, transparent 14%), radial-gradient(at 76% 34%, rgb(55, 65, 81) 0, transparent 85%), radial-gradient(at 79% 82%, rgb(147, 197, 253) 0, transparent 21%);
+}

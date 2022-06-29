@@ -29,8 +29,7 @@ const Highighter = () => {
 
 
 
-    const [comments, setComments] = useState([{ lineNo: 3, comment: 'example' }, { lineNo: 5, comment: 'example2' }]);
-
+    const [comments, setComments] = useState([{ lineNo: 3, comment: 'Lorem Ipsum comment about the code' }, ]);
     const [codeFragments, setCodeFragments] = useState([])
 
 
@@ -85,9 +84,8 @@ const Highighter = () => {
                         wrapLines={true}
                         showLineNumbers={true}
                         lineProps={(lineNumber) => ({
-                            style: { cursor: 'pointer' },
+                            style: { cursor: 'pointer'},
                             onClick() {
-                                console.log(index)
                                 setComments([...comments, {
                                     lineNo: index === 0 ? lineNumber : getLineNumber(index, lineNumber),
                                     comment: 'INSERT'
